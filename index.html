@@ -1675,38 +1675,39 @@
         function val(id) { return document.getElementById(id) ? document.getElementById(id).value.trim() : ''; }
 
         function submitRequest() {
-            document.getElementById('success-banner').classList.add('visible');
             sendOrderEmail(window.__lastOrder);
         }
 
         function sendOrderEmail(data) {
             if (!data) return;
 
-            const subject = `New MOSA Request — ${data.Name} (${data.Type})`;
-            const bodyLines = Object.entries(data).map(([k, v]) => `${k}: ${v}`);
-            const body = bodyLines.join('\n');
+            const templateParams = {
+                name: data.Name || "—",
+                mobile: data.Mobile || "—",
+                location: data.Location || "—",
+                order_type: data.Type || "—",
+                land: data.Land || "—",
+                farm_size: data.Farm || "—",
+                crops: data.Crops || "—",
+                problem: data.Problem || "—",
+                requirement: data.Requirement || "—"
+            };
 
-            const encodedSubject = encodeURIComponent(subject);
-            const encodedBody = encodeURIComponent(body);
-            const encodedEmail = encodeURIComponent(RECIPIENT_EMAIL);
+            emailjs.send(
+                "YOUR_SERVICE_ID",
+                "YOUR_TEMPLATE_ID",
+                templateParams
+            )
+                .then(function (response) {
+                    console.log("SUCCESS!", response.status, response.text);
 
-            // Detect mobile devices
-            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                    document.getElementById('success-banner').classList.add('visible');
+                })
+                .catch(function (error) {
+                    console.error("FAILED...", error);
 
-            if (isMobile) {
-                // Mobile: let the phone open its configured mail app
-                window.location.href =
-                    `mailto:${RECIPIENT_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
-            } else {
-                // Desktop: open Gmail compose directly
-                const gmailURL =
-                    `https://mail.google.com/mail/?view=cm&fs=1` +
-                    `&to=${encodedEmail}` +
-                    `&su=${encodedSubject}` +
-                    `&body=${encodedBody}`;
-
-                window.open(gmailURL, '_blank');
-            }
+                    alert("Unable to send your request. Please try again.");
+                });
         }
 
         // ===== video upload/preview =====
@@ -1730,6 +1731,13 @@
                 document.querySelectorAll('.mobile-nav a').forEach(x => x.classList.remove('active'));
                 a.classList.add('active');
             });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <script>
+        emailjs.init({
+            publicKey: "YOUR_PUBLIC_KEY"
         });
     </script>
 
