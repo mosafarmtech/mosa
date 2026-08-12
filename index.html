@@ -1686,14 +1686,27 @@
             const bodyLines = Object.entries(data).map(([k, v]) => `${k}: ${v}`);
             const body = bodyLines.join('\n');
 
-            const gmailURL =
-                `https://mail.google.com/mail/?view=cm` +
-                `&fs=1` +
-                `&to=${encodeURIComponent(RECIPIENT_EMAIL)}` +
-                `&su=${encodeURIComponent(subject)}` +
-                `&body=${encodeURIComponent(body)}`;
+            const encodedSubject = encodeURIComponent(subject);
+            const encodedBody = encodeURIComponent(body);
+            const encodedEmail = encodeURIComponent(RECIPIENT_EMAIL);
 
-            window.open(gmailURL, '_blank');
+            // Detect mobile devices
+            const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                // Mobile: let the phone open its configured mail app
+                window.location.href =
+                    `mailto:${RECIPIENT_EMAIL}?subject=${encodedSubject}&body=${encodedBody}`;
+            } else {
+                // Desktop: open Gmail compose directly
+                const gmailURL =
+                    `https://mail.google.com/mail/?view=cm&fs=1` +
+                    `&to=${encodedEmail}` +
+                    `&su=${encodedSubject}` +
+                    `&body=${encodedBody}`;
+
+                window.open(gmailURL, '_blank');
+            }
         }
 
         // ===== video upload/preview =====
