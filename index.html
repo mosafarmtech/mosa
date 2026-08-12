@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MOSA — Mobile Organic Smart Agriculture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Tamil:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a1510;
+            --bg-soft: #0e1c14;
+            --surface: #132a1d;
+            --surface-hi: #183524;
+            --line: rgba(230, 240, 225, 0.09);
+            --line-strong: rgba(230, 240, 225, 0.16);
+            --green: #4fa968;
+            --green-bright: #7ed99a;
+            --green-deep: #2c6b41;
+            --gold: #e0a94a;
+            --gold-dim: #b9873a;
+            --white: #f3f6f2;
+            --gray: #9bb0a2;
+            --gray-dim: #63776a;
+            --radius: 14px;
+            --display: 'Space Grotesk', sans-serif;
+            --body: 'IBM Plex Sans', sans-serif;
+            --mono: 'IBM Plex Mono', monospace;
+        }
+
+        [data-lang="ta"] body,
+        [data-lang="ta"] .translate {
+            font-family: 'Noto Sans Tamil', 'IBM Plex Sans', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--white);
+            font-family: var(--body);
+            line-height: 1.55;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        .eyebrow {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--green-bright);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 16px;
+            height: 1px;
+            background: var(--green-bright);
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: var(--display);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        h2 {
+            font-size: clamp(28px, 3.4vw, 42px);
+            color: var(--white);
+        }
+
+        .section-lead {
+            color: var(--gray);
+            max-width: 560px;
+            font-size: 16px;
+        }
+
+        .section {
+            padding: 96px 0;
+        }
+
+        .section-alt {
+            background: var(--bg-soft);
+        }
+
+        .divider-contour {
+            height: 64px;
+            width: 100%;
+        }
+
+        /* ===== signature element: contour-to-circuit line pattern ===== */
+        .contour-band {
+            position: relative;
+            height: 72px;
+            overflow: hidden;
+        }
+
+        .contour-band svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* ===== nav ===== */
+        header.nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(10, 21, 16, 0.86);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--display);
+            font-weight: 700;
+            font-size: 19px;
+            letter-spacing: 0.02em;
+        }
+
+        .logo-mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            background: linear-gradient(145deg, var(--green), var(--green-deep));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--bg);
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 14.5px;
+            color: var(--gray);
+            transition: color .15s;
+        }
+
+        .nav-links a:hover {
+            color: var(--white);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .lang-toggle {
+            display: flex;
+            border: 1px solid var(--line-strong);
+            border-radius: 8px;
+            overflow: hidden;
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .lang-toggle button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            padding: 7px 11px;
+        }
+
+        .lang-toggle button.active {
+            background: var(--green);
+            color: var(--bg);
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid transparent;
+            transition: transform .15s, background .15s, border-color .15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: #08150e;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-bright);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border-color: var(--line-strong);
+            color: var(--white);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--green);
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: #241503;
+        }
+
+        .btn-gold:hover {
+            background: #f0bd66;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 22px;
+        }
+
+        /* ===== hero ===== */
+        .hero {
+            position: relative;
+            padding: 88px 0 64px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            opacity: 0.5;
+            background:
+                radial-gradient(circle at 82% 18%, rgba(79, 169, 104, 0.18), transparent 45%),
+                radial-gradient(circle at 10% 90%, rgba(224, 169, 74, 0.08), transparent 40%);
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 5.4vw, 62px);
+            line-height: 1.03;
+            color: var(--white);
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: var(--green-bright);
+        }
+
+        .hero p.lead {
+            color: var(--gray);
+            font-size: 17px;
+            max-width: 480px;
+            margin-bottom: 32px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 44px;
+        }
+
+        .hero-highlights {
+            display: flex;
+            gap: 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .hero-highlights div {
+            flex: 1;
+            padding: 16px 18px 0;
+            font-family: var(--mono);
+            font-size: 12.5px;
+            color: var(--gray);
+            border-right: 1px solid var(--line);
+        }
+
+        .hero-highlights div:last-child {
+            border-right: none;
+        }
+
+        .hero-highlights strong {
+            display: block;
+            color: var(--white);
+            font-family: var(--body);
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 2px;
+        }
+
+        .robot-stage {
+            position: relative;
+            aspect-ratio: 1/1;
+            border-radius: 20px;
+            background: radial-gradient(circle at 50% 40%, var(--surface-hi), var(--bg-soft) 70%);
+            border: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .robot-stage svg {
+            width: 72%;
+            height: 72%;
+        }
+
+        .stage-tag {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--gray-dim);
+            border-top: 1px solid var(--line);
+            padding-top: 10px;
+        }
+
+        .stage-tag .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--green-bright);
+            display: inline-block;
+            margin-right: 6px;
+            box-shadow: 0 0 8px var(--green-bright);
+        }
+
+        /* ===== about ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 56px;
+            align-items: start;
+        }
+
+        .about-copy p {
+            color: var(--gray);
+            margin-bottom: 16px;
+            font-size: 15.5px;
+        }
+
+        .about-copy .headline {
+            font-family: var(--display);
+            font-size: 24px;
+            color: var(--white);
+            margin-bottom: 20px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .vm-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .vm-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 24px;
+        }
+
+        .vm-card .eyebrow {
+            margin-bottom: 8px;
+        }
+
+        .vm-card p {
+            color: var(--gray);
+            font-size: 14.5px;
+        }
+
+        /* ===== solutions ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-top: 44px;
+        }
+
+        .sol-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 26px 22px;
+            transition: border-color .18s, transform .18s;
+        }
+
+        .sol-card:hover {
+            border-color: var(--green);
+            transform: translateY(-3px);
+        }
+
+        .sol-icon {
+            font-size: 26px;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .sol-card h3 {
+            font-size: 16.5px;
+            margin-bottom: 9px;
+            color: var(--white);
+        }
+
+        .sol-card p {
+            font-size: 13.8px;
+            color: var(--gray);
+        }
+
+        /* ===== how it works ===== */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            margin-top: 48px;
+            position: relative;
+        }
+
+        .step {
+            position: relative;
+            padding: 0 22px 0 0;
+        }
+
+        .step:not(:last-child)::after {
+            content: "";
+            position: absolute;
+            top: 20px;
+            right: -2px;
+            width: calc(100% - 40px);
+            height: 1px;
+            background: repeating-linear-gradient(90deg, var(--line-strong) 0 6px, transparent 6px 12px);
+        }
+
+        .step-num {
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--green-bright);
+            margin-bottom: 18px;
+        }
+
+        .step h3 {
+            font-size: 17px;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            font-size: 13.8px;
+            color: var(--gray);
+        }
+
+        /* ===== video showcase ===== */
+        .video-shell {
+            position: relative;
+            margin-top: 44px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            background: var(--surface);
+            aspect-ratio: 16/9;
+            max-height: 560px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-shell video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .video-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            background:
+                radial-gradient(circle at 50% 40%, var(--surface-hi), var(--bg-soft) 75%);
+        }
+
+        .play-btn {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            box-shadow: 0 0 0 10px rgba(79, 169, 104, 0.12);
+        }
+
+        .play-btn svg {
+            width: 20px;
+            height: 20px;
+            margin-left: 3px;
+        }
+
+        .video-placeholder .hint {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--gray-dim);
+            text-align: center;
+            max-width: 320px;
+        }
+
+        /* ===== team ===== */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 44px;
+        }
+
+        .team-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            text-align: left;
+            transition: border-color .18s, transform .18s;
+        }
+
+        .team-card:hover {
+            border-color: var(--green);
+            transform: translateY(-3px);
+        }
+
+        .team-photo {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: linear-gradient(150deg, var(--surface-hi), var(--bg-soft));
+            border-bottom: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .team-photo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .team-photo .fallback {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            color: var(--gray-dim);
+            text-align: center;
+            padding: 0 16px;
+        }
+
+        .team-photo .fallback .initials {
+            width: 54px;
+            height: 54px;
+            border-radius: 10px;
+            background: linear-gradient(150deg, var(--green-deep), var(--surface-hi));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--display);
+            font-weight: 700;
+            color: var(--green-bright);
+            font-size: 18px;
+            border: 1px solid var(--line-strong);
+        }
+
+        .team-photo .fallback span.hint {
+            font-size: 10px;
+            letter-spacing: .04em;
+        }
+
+        .team-card-body {
+            padding: 18px 20px 22px;
+        }
+
+        .team-card h3 {
+            font-size: 15.5px;
+            margin-bottom: 4px;
+        }
+
+        .team-card .role {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: .06em;
+        }
+
+        /* ===== order ===== */
+        .order-shell {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 44px;
+            margin-top: 44px;
+        }
+
+        .order-choice {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 8px;
+        }
+
+        .choice-card {
+            background: var(--bg-soft);
+            border: 1.5px solid var(--line-strong);
+            border-radius: var(--radius);
+            padding: 26px;
+            text-align: left;
+            transition: border-color .15s, background .15s;
+        }
+
+        .choice-card:hover {
+            border-color: var(--green);
+        }
+
+        .choice-card.selected {
+            border-color: var(--gold);
+            background: rgba(224, 169, 74, 0.06);
+        }
+
+        .choice-card h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .choice-card p {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .choice-tag {
+            font-family: var(--mono);
+            font-size: 10.5px;
+            padding: 3px 8px;
+            border-radius: 5px;
+            background: var(--green-deep);
+            color: var(--green-bright);
+        }
+
+        .choice-tag.gold {
+            background: rgba(224, 169, 74, 0.18);
+            color: var(--gold);
+        }
+
+        .form-block {
+            margin-top: 36px;
+            display: none;
+        }
+
+        .form-block.visible {
+            display: block;
+            animation: fadein .3s ease;
+        }
+
+        @keyframes fadein {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-section-title {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--green-bright);
+            margin: 28px 0 14px;
+            padding-top: 20px;
+            border-top: 1px solid var(--line);
+        }
+
+        .form-section-title:first-child {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+        }
+
+        .field-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 14px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .field label {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .field input,
+        .field select,
+        .field textarea {
+            background: var(--bg);
+            border: 1px solid var(--line-strong);
+            border-radius: 8px;
+            padding: 11px 13px;
+            color: var(--white);
+            font-family: var(--body);
+            font-size: 14px;
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .field input:focus,
+        .field select:focus,
+        .field textarea:focus {
+            border-color: var(--green);
+        }
+
+        .field textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+
+        .crop-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .chip {
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--line-strong);
+            font-size: 13px;
+            color: var(--gray);
+            background: var(--bg);
+        }
+
+        .chip.active {
+            background: var(--green);
+            color: var(--bg);
+            border-color: var(--green);
+            font-weight: 600;
+        }
+
+        .order-summary {
+            margin-top: 36px;
+            background: var(--bg-soft);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 26px;
+            display: none;
+        }
+
+        .order-summary.visible {
+            display: block;
+        }
+
+        .order-summary h4 {
+            font-family: var(--mono);
+            font-size: 12px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 9px 0;
+            border-bottom: 1px dashed var(--line);
+            font-size: 14px;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-row span:first-child {
+            color: var(--gray);
+        }
+
+        .form-actions {
+            margin-top: 28px;
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+
+        .submit-note {
+            font-size: 13px;
+            color: var(--gray-dim);
+        }
+
+        .success-banner {
+            display: none;
+            margin-top: 20px;
+            padding: 16px 20px;
+            border-radius: 10px;
+            background: rgba(79, 169, 104, 0.12);
+            border: 1px solid var(--green);
+            color: var(--green-bright);
+            font-size: 14.5px;
+        }
+
+        .success-banner.visible {
+            display: block;
+        }
+
+        /* ===== contact ===== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .contact-copy h2 {
+            margin-bottom: 16px;
+        }
+
+        .contact-copy p {
+            color: var(--gray);
+            margin-bottom: 28px;
+            max-width: 440px;
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .contact-list div {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-size: 14.5px;
+            color: var(--gray);
+        }
+
+        .contact-list span.k {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--green-bright);
+            width: 80px;
+            text-transform: uppercase;
+        }
+
+        /* ===== footer ===== */
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 56px 0 32px;
+            background: var(--bg-soft);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 12px;
+        }
+
+        .footer-brand p {
+            color: var(--gray-dim);
+            font-size: 13.5px;
+            max-width: 280px;
+        }
+
+        .footer-col h4 {
+            font-family: var(--mono);
+            font-size: 11.5px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--gray-dim);
+            font-size: 14px;
+            margin-bottom: 10px;
+            transition: color .15s;
+        }
+
+        .footer-col a:hover {
+            color: var(--white);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--line);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12.5px;
+            color: var(--gray-dim);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* ===== mobile bottom nav ===== */
+        .mobile-nav {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .robot-stage {
+                order: -1;
+                max-width: 340px;
+                margin: 0 auto;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns: 1fr 1fr;
+                row-gap: 36px;
+            }
+
+            .step:nth-child(2)::after {
+                display: none;
+            }
+
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .order-choice {
+                grid-template-columns: 1fr;
+            }
+
+            .field-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            body {
+                padding-bottom: 64px;
+            }
+
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 60;
+                background: rgba(10, 21, 16, 0.95);
+                backdrop-filter: blur(10px);
+                border-top: 1px solid var(--line);
+                justify-content: space-around;
+                padding: 10px 0;
+            }
+
+            .mobile-nav a {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+                font-size: 10.5px;
+                color: var(--gray);
+            }
+
+            .mobile-nav a.active {
+                color: var(--green-bright);
+            }
+        }
+
+        @media (max-width:600px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-highlights {
+                flex-direction: column;
+            }
+
+            .hero-highlights div {
+                border-right: none;
+                border-bottom: 1px solid var(--line);
+                padding-bottom: 14px;
+                margin-bottom: 4px;
+            }
+        }
+    </style>
+</head>
+
+<body data-lang="en">
+
+    <header class="nav">
+        <div class="nav-inner">
+            <div class="logo"><span class="logo-mark">M</span> MOSA</div>
+            <nav class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#solutions">Solutions</a>
+                <a href="#watch">Watch</a>
+                <a href="#team">Team</a>
+                <a href="#order">Order</a>
+            </nav>
+            <div class="nav-right">
+                <div class="lang-toggle">
+                    <button class="active" onclick="setLang('en')" id="lang-en-btn">EN</button>
+                    <button onclick="setLang('ta')" id="lang-ta-btn">தமிழ்</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="home">
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="wrap hero-grid">
+                <div>
+                    <div class="eyebrow translate" data-en="Mobile Organic Smart Agriculture"
+                        data-ta="மொபைல் ஆர்கானிக் ஸ்மார்ட் அக்ரிகல்சர்">Mobile Organic Smart Agriculture</div>
+                    <h1 class="translate" data-en='Smart technology for <span>better farming.</span>'
+                        data-ta='சிறந்த விவசாயத்திற்கான <span>ஸ்மார்ட் தொழில்நுட்பம்.</span>'>Smart technology for
+                        <span>better farming.</span>
+                    </h1>
+                    <p class="lead translate"
+                        data-en="MOSA is a team developing practical agricultural robotic solutions to make farming smarter, easier and more efficient."
+                        data-ta="MOSA என்பது நடைமுறை விவசாய ரோபோட்டிக் தீர்வுகளை உருவாக்கும் ஒரு குழு — விவசாயத்தை புத்திசாலித்தனமாகவும், எளிதாகவும் மாற்ற.">
+                        MOSA is a team developing practical agricultural robotic solutions to make farming smarter,
+                        easier and more efficient.</p>
+                    <div class="hero-actions">
+                        <a href="#order" class="btn btn-primary translate" data-en="Get MOSA"
+                            data-ta="MOSA பெறுங்கள்">Get MOSA →</a>
+                        <a href="#solutions" class="btn btn-ghost translate" data-en="Explore MOSA"
+                            data-ta="MOSA ஆராயுங்கள்">Explore MOSA</a>
+                    </div>
+                    <div class="hero-highlights">
+                        <div><strong class="translate" data-en="Smart Mobility" data-ta="ஸ்மார்ட் நகர்வு">Smart
+                                Mobility</strong>Adapts to uneven and mixed terrain</div>
+                        <div><strong class="translate" data-en="Agriculture Support" data-ta="விவசாய ஆதரவு">Agriculture
+                                Support</strong>Assists daily field operations</div>
+                        <div><strong class="translate" data-en="Farmer Focused" data-ta="விவசாயி மையம்">Farmer
+                                Focused</strong>Built around real farm conditions</div>
+                    </div>
+                </div>
+                <div class="robot-stage">
+                    <svg viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <img src="images/mosa.jpeg" alt="mosa_image">
+                    </svg>
+                    <div class="stage-tag"><span><span class="dot"></span>MOSA-01 · active</span><span>v0.9
+                            prototype</span></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="contour-band"><svg viewBox="0 0 1200 72" preserveAspectRatio="none">
+                <path d="M0 40 Q150 10 300 40 T600 40 T900 40 T1200 40" stroke="#4fa968" stroke-width="1" fill="none"
+                    opacity="0.35" />
+                <path
+                    d="M0 55 L60 55 L60 30 L140 30 L140 55 Q260 20 380 55 T650 55 L650 25 L720 25 L720 55 Q900 15 1080 55 T1200 50"
+                    stroke="#e0a94a" stroke-width="1" fill="none" opacity="0.4" />
+            </svg></div>
+
+        <!-- ABOUT -->
+        <section class="section" id="about">
+            <div class="wrap about-grid">
+                <div class="about-copy">
+                    <div class="eyebrow translate" data-en="About MOSA" data-ta="MOSA பற்றி">About MOSA</div>
+                    <div class="headline translate" data-en="We believe technology should work with farmers."
+                        data-ta="தொழில்நுட்பம் விவசாயிகளுடன் இணைந்து செயல்பட வேண்டும் என நம்புகிறோம்.">We believe
+                        technology should work with farmers.</div>
+                    <p class="translate"
+                        data-en="MOSA stands for Mobile Organic Smart Agriculture. We are a team of young innovators working on practical robotic solutions for agriculture."
+                        data-ta="MOSA என்பது Mobile Organic Smart Agriculture-ஐக் குறிக்கிறது. விவசாயத்திற்கான நடைமுறை ரோபோட்டிக் தீர்வுகளில் பணியாற்றும் இளம் புத்தாக்கியர்களின் குழு நாங்கள்.">
+                        MOSA stands for Mobile Organic Smart Agriculture. We are a team of young innovators working on
+                        practical robotic solutions for agriculture.</p>
+                    <p class="translate"
+                        data-en="Our goal is to develop technology that understands real farming conditions and supports farmers in their daily work."
+                        data-ta="உண்மையான விவசாய நிலைமைகளைப் புரிந்துகொண்டு, விவசாயிகளின் தினசரி வேலையை ஆதரிக்கும் தொழில்நுட்பத்தை உருவாக்குவதே எங்கள் இலக்கு.">
+                        Our goal is to develop technology that understands real farming conditions and supports farmers
+                        in their daily work.</p>
+                </div>
+                <div class="vm-cards">
+                    <div class="vm-card">
+                        <div class="eyebrow translate" data-en="Our Vision" data-ta="எங்கள் தொலைநோக்கு">Our Vision</div>
+                        <p class="translate"
+                            data-en="To make agricultural technology accessible, practical and useful for farmers."
+                            data-ta="விவசாய தொழில்நுட்பத்தை அணுகக்கூடியதாகவும், நடைமுறையாகவும், பயனுள்ளதாகவும் மாற்றுவது.">
+                            To make agricultural technology accessible, practical and useful for farmers.</p>
+                    </div>
+                    <div class="vm-card">
+                        <div class="eyebrow translate" data-en="Our Mission" data-ta="எங்கள் நோக்கம்">Our Mission</div>
+                        <p class="translate"
+                            data-en="To develop smart robotic solutions for real-world farming challenges."
+                            data-ta="நிஜ உலக விவசாய சவால்களுக்கு ஸ்மார்ட் ரோபோட்டிக் தீர்வுகளை உருவாக்குவது.">To develop
+                            smart robotic solutions for real-world farming challenges.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOLUTIONS -->
+        <section class="section section-alt" id="solutions">
+            <div class="wrap">
+                <div class="eyebrow translate" data-en="Solutions" data-ta="தீர்வுகள்">Solutions</div>
+                <h2 class="translate" data-en="What MOSA brings to the field."
+                    data-ta="MOSA வயலுக்கு கொண்டுவருவது என்ன.">What MOSA brings to the field.</h2>
+                <p class="section-lead translate"
+                    data-en="No complicated engineering terms — just practical support for real farm work."
+                    data-ta="சிக்கலான பொறியியல் சொற்கள் இல்லை — உண்மையான வயல் வேலைக்கான நடைமுறை ஆதரவு மட்டுமே.">No
+                    complicated engineering terms — just practical support for real farm work.</p>
+                <div class="card-grid">
+                    <div class="sol-card">
+                        <span class="sol-icon">🤖</span>
+                        <h3 class="translate" data-en="Smart Agricultural Robot" data-ta="ஸ்மார்ட் விவசாய ரோபோ">Smart
+                            Agricultural Robot</h3>
+                        <p class="translate"
+                            data-en="MOSA moves through your field and supports everyday agricultural activities so you spend less time on repetitive work."
+                            data-ta="MOSA உங்கள் வயலில் நகர்ந்து, அன்றாட விவசாய பணிகளுக்கு உதவுகிறது — மீண்டும் மீண்டும் செய்யும் வேலையில் குறைவான நேரம் செலவிடலாம்.">
+                            MOSA moves through your field and supports everyday agricultural activities so you spend
+                            less time on repetitive work.</p>
+                    </div>
+                    <div class="sol-card">
+                        <span class="sol-icon">🌱</span>
+                        <h3 class="translate" data-en="Different Farm Conditions" data-ta="வெவ்வேறு நில நிலைமைகள்">
+                            Different Farm Conditions</h3>
+                        <p class="translate"
+                            data-en="Designed with different land types, soil and crop patterns in mind — not just one ideal field."
+                            data-ta="வெவ்வேறு நில வகைகள், மண் மற்றும் பயிர் முறைகளை கருத்தில் கொண்டு வடிவமைக்கப்பட்டுள்ளது.">
+                            Designed with different land types, soil and crop patterns in mind — not just one ideal
+                            field.</p>
+                    </div>
+                    <div class="sol-card">
+                        <span class="sol-icon">🚜</span>
+                        <h3 class="translate" data-en="Farmer Support" data-ta="விவசாயி ஆதரவு">Farmer Support</h3>
+                        <p class="translate"
+                            data-en="Reduces manual effort in monitoring and repetitive tasks, so you can focus on decisions that matter."
+                            data-ta="கண்காணிப்பு மற்றும் மீண்டும் மீண்டும் செய்யும் பணிகளில் கைமுறை உழைப்பைக் குறைக்கிறது.">
+                            Reduces manual effort in monitoring and repetitive tasks, so you can focus on decisions that
+                            matter.</p>
+                    </div>
+                    <div class="sol-card">
+                        <span class="sol-icon">⚙️</span>
+                        <h3 class="translate" data-en="Custom Requirements" data-ta="தனிப்பயன் தேவைகள்">Custom
+                            Requirements</h3>
+                        <p class="translate"
+                            data-en="Every farm is different. Tell us about your land, crops and requirements so our team can understand what support you need."
+                            data-ta="ஒவ்வொரு பண்ணையும் வேறுபட்டது. உங்கள் நிலம், பயிர்கள் மற்றும் தேவைகளைப் பற்றி எங்களிடம் கூறுங்கள்.">
+                            Every farm is different. Tell us about your land, crops and requirements so our team can
+                            understand what support you need.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="section">
+            <div class="wrap">
+                <div class="eyebrow translate" data-en="How MOSA Works" data-ta="MOSA எவ்வாறு செயல்படுகிறது">How MOSA
+                    Works</div>
+                <h2 class="translate" data-en="From your field to the right MOSA."
+                    data-ta="உங்கள் வயலிலிருந்து சரியான MOSA வரை.">From your field to the right MOSA.</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">01</div>
+                        <h3 class="translate" data-en="Tell us about your farm" data-ta="உங்கள் பண்ணை பற்றி கூறுங்கள்">
+                            Tell us about your farm</h3>
+                        <p class="translate" data-en="Share basic information about your land and crops."
+                            data-ta="உங்கள் நிலம் மற்றும் பயிர்கள் பற்றிய அடிப்படை தகவலைப் பகிரவும்.">Share basic
+                            information about your land and crops.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">02</div>
+                        <h3 class="translate" data-en="Describe your requirement" data-ta="உங்கள் தேவையை விவரிக்கவும்">
+                            Describe your requirement</h3>
+                        <p class="translate" data-en="Explain the problem or work you want MOSA to support."
+                            data-ta="MOSA ஆதரிக்க வேண்டிய பிரச்சனை அல்லது வேலையை விளக்குங்கள்.">Explain the problem or
+                            work you want MOSA to support.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">03</div>
+                        <h3 class="translate" data-en="Our team reviews it" data-ta="எங்கள் குழு பரிசீலிக்கும்">Our team
+                            reviews it</h3>
+                        <p class="translate" data-en="The MOSA team studies your requirement carefully."
+                            data-ta="MOSA குழு உங்கள் தேவையை கவனமாக ஆய்வு செய்யும்.">The MOSA team studies your
+                            requirement carefully.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">04</div>
+                        <h3 class="translate" data-en="MOSA solution" data-ta="MOSA தீர்வு">MOSA solution</h3>
+                        <p class="translate" data-en="We suggest the suitable MOSA configuration for your farm."
+                            data-ta="உங்கள் பண்ணைக்கு ஏற்ற MOSA அமைப்பை பரிந்துரைக்கிறோம்.">We suggest the suitable MOSA
+                            configuration for your farm.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- VIDEO SHOWCASE -->
+        <section class="section section-alt" id="watch">
+            <div class="wrap">
+                <div class="eyebrow translate" data-en="See MOSA in Action" data-ta="MOSA செயலில் காணுங்கள்">
+                    See MOSA in Action
+                </div>
+
+                <h2 class="translate" data-en="Watch how MOSA supports a real farm."
+                    data-ta="MOSA ஒரு உண்மையான பண்ணைக்கு எவ்வாறு உதவுகிறது என்பதைப் பாருங்கள்.">
+                    Watch how MOSA supports a real farm.
+                </h2>
+
+                <div class="video-shell" id="video-shell">
+                    <video controls playsinline preload="metadata"
+                        style="width:100%; height:100%; object-fit:cover; display:block;">
+                        <source src="videos/mosa_demo.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
+                <p class="submit-note" style="margin-top:10px;">
+                    Watch the MOSA demo and see how it supports a real farm.
+                </p>
+            </div>
+        </section>
+
+        <!-- TEAM -->
+        <section class="section section-alt" id="team">
+            <div class="wrap">
+                <div class="eyebrow translate" data-en="Our Team" data-ta="எங்கள் குழு">Our Team</div>
+                <h2 class="translate" data-en="Meet the MOSA team." data-ta="MOSA குழுவை சந்திக்கவும்.">Meet the MOSA
+                    team.</h2>
+                <div class="team-grid">
+                    <div class="team-card">
+                        <div class="team-photo">
+                            <!-- Replace src below with the team member's photo, e.g. images/team/renjith.jpg -->
+                            <img src="images/team/renjith.png" alt="Renjith R L" onerror="this.style.display='none'">
+                            <div class="fallback">
+                                <div class="initials">RL</div><span class="hint">Add photo</span>
+                            </div>
+                        </div>
+                        <div class="team-card-body">
+                            <h3>Renjith R L</h3>
+                            <div class="role">Team Leader</div>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-photo">
+                            <img src="images/team/sandhya.png" alt="Sandhya V" onerror="this.style.display='none'">
+                            <div class="fallback">
+                                <div class="initials">SV</div><span class="hint">Add photo</span>
+                            </div>
+                        </div>
+                        <div class="team-card-body">
+                            <h3>Sandhya V</h3>
+                            <div class="role">Team Member</div>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-photo">
+                            <img src="images/team/muthu-dharshini.png" alt="Muthu Dharshini L"
+                                onerror="this.style.display='none'">
+                            <div class="fallback">
+                                <div class="initials">MD</div><span class="hint">Add photo</span>
+                            </div>
+                        </div>
+                        <div class="team-card-body">
+                            <h3>Muthu Dharshini L</h3>
+                            <div class="role">Team Member</div>
+                        </div>
+                    </div>
+                    <div class="team-card">
+                        <div class="team-photo">
+                            <img src="images/team/subin-karthick.png" alt="Subin Karthick C"
+                                onerror="this.style.display='none'">
+                            <div class="fallback">
+                                <div class="initials">SC</div><span class="hint">Add photo</span>
+                            </div>
+                        </div>
+                        <div class="team-card-body">
+                            <h3>Subin Karthick C</h3>
+                            <div class="role">Team Member</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORDER -->
+        <section class="section" id="order">
+            <div class="wrap">
+                <div class="eyebrow translate" data-en="Order MOSA" data-ta="MOSA ஆர்டர் செய்யுங்கள்">Order MOSA</div>
+                <h2 class="translate" data-en="Let's build the right MOSA for your farm."
+                    data-ta="உங்கள் பண்ணைக்கு சரியான MOSA-வை உருவாக்குவோம்.">Let's build the right MOSA for your farm.
+                </h2>
+
+                <div class="order-shell">
+                    <div class="order-choice">
+                        <button class="choice-card" id="choice-standard" onclick="selectOrderType('standard')">
+                            <h3><span class="translate" data-en="Standard MOSA" data-ta="ஸ்டாண்டர்ட் MOSA">Standard
+                                    MOSA</span> <span class="choice-tag">Fast</span></h3>
+                            <p class="translate" data-en="I want to request the standard MOSA solution."
+                                data-ta="நான் ஸ்டாண்டர்ட் MOSA தீர்வை கோர விரும்புகிறேன்.">I want to request the
+                                standard MOSA solution.</p>
+                        </button>
+                        <button class="choice-card" id="choice-custom" onclick="selectOrderType('custom')">
+                            <h3><span class="translate" data-en="Customize MOSA" data-ta="MOSA தனிப்பயனாக்கு">Customize
+                                    MOSA</span> <span class="choice-tag gold">Tailored</span></h3>
+                            <p class="translate" data-en="My farm has specific requirements."
+                                data-ta="எனது பண்ணைக்கு குறிப்பிட்ட தேவைகள் உள்ளன.">My farm has specific requirements.
+                            </p>
+                        </button>
+                    </div>
+
+                    <!-- STANDARD FORM -->
+                    <div class="form-block" id="standard-form">
+                        <div class="form-section-title translate" data-en="Personal Information"
+                            data-ta="தனிப்பட்ட தகவல்">Personal Information</div>
+                        <div class="field-row">
+                            <div class="field"><label class="translate" data-en="Name"
+                                    data-ta="பெயர்">Name</label><input type="text" id="s-name"
+                                    placeholder="Your full name" /></div>
+                            <div class="field"><label class="translate" data-en="Mobile number"
+                                    data-ta="மொபைல் எண்">Mobile number</label><input type="number" id="s-mobile"
+                                    placeholder="+91" /></div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field"><label class="translate" data-en="Location"
+                                    data-ta="இடம்">Location</label><input type="text" id="s-location"
+                                    placeholder="Village / Town" /></div>
+                            <div class="field"><label class="translate" data-en="District / City"
+                                    data-ta="மாவட்டம் / நகரம்">District / City</label><input type="text" id="s-district"
+                                    placeholder="District" /></div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn-gold" onclick="buildSummary('standard')">Review request →</button>
+                        </div>
+                    </div>
+
+                    <!-- CUSTOM FORM -->
+                    <div class="form-block" id="custom-form">
+                        <div class="form-section-title translate" data-en="Personal Information"
+                            data-ta="தனிப்பட்ட தகவல்">Personal Information</div>
+                        <div class="field-row">
+                            <div class="field"><label class="translate" data-en="Name"
+                                    data-ta="பெயர்">Name</label><input type="text" id="c-name"
+                                    placeholder="Your full name" /></div>
+                            <div class="field"><label class="translate" data-en="Mobile number"
+                                    data-ta="மொபைல் எண்">Mobile number</label><input type="number" id="c-mobile"
+                                    placeholder="+91" /></div>
+                        </div>
+                        <div class="field-row">
+                            <div class="field"><label class="translate" data-en="Location"
+                                    data-ta="இடம்">Location</label><input type="text" id="c-location"
+                                    placeholder="Village / Town" /></div>
+                            <div class="field"><label class="translate" data-en="District / City"
+                                    data-ta="மாவட்டம் / நகரம்">District / City</label><input type="text" id="c-district"
+                                    placeholder="District" /></div>
+                        </div>
+
+                        <div class="form-section-title translate" data-en="Land Information" data-ta="நில தகவல்">Land
+                            Information</div>
+                        <div class="field-row">
+                            <div class="field"><label class="translate" data-en="Tell us about your land"
+                                    data-ta="உங்கள் நிலத்தைப் பற்றி கூறுங்கள்">Tell us about your land</label><input
+                                    type="text" id="c-land" placeholder="e.g. Mostly flat with some wet areas" /></div>
+                            <div class="field"><label class="translate" data-en="Farm size" data-ta="பண்ணை அளவு">Farm
+                                    size</label><input type="text" id="c-size" placeholder="e.g. 2 acres" /></div>
+                        </div>
+
+                        <div class="form-section-title translate" data-en="Crop Information" data-ta="பயிர் தகவல்">Crop
+                            Information</div>
+                        <div class="field" style="margin-bottom:14px;">
+                            <label class="translate" data-en="What crops do you grow?"
+                                data-ta="நீங்கள் என்ன பயிர்கள் வளர்க்கிறீர்கள்?">What crops do you grow?</label>
+                            <div class="crop-chips" id="crop-chips">
+                                <span class="chip" onclick="toggleChip(this)">Coconut</span>
+                                <span class="chip" onclick="toggleChip(this)">Banana</span>
+                                <span class="chip" onclick="toggleChip(this)">Vegetables</span>
+                                <span class="chip" onclick="toggleChip(this)">Paddy</span>
+                                <span class="chip" onclick="toggleChip(this)">Tea</span>
+                                <span class="chip" onclick="toggleChip(this)">Other</span>
+                            </div>
+                        </div>
+
+                        <div class="form-section-title translate" data-en="Farming Requirement" data-ta="விவசாய தேவை">
+                            Farming Requirement</div>
+                        <div class="field" style="margin-bottom:14px;">
+                            <label class="translate" data-en="What problem are you facing?"
+                                data-ta="நீங்கள் என்ன பிரச்சனையை எதிர்கொள்கிறீர்கள்?">What problem are you
+                                facing?</label>
+                            <textarea id="c-problem"
+                                placeholder="e.g. I need help monitoring my vegetable field."></textarea>
+                        </div>
+                        <div class="field">
+                            <label class="translate" data-en="What would you like MOSA to help you with?"
+                                data-ta="MOSA எதில் உதவ வேண்டும் என விரும்புகிறீர்கள்?">What would you like MOSA to help
+                                you with?</label>
+                            <textarea id="c-requirement"
+                                placeholder="Describe your requirement in your own words"></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button class="btn btn-gold" onclick="buildSummary('custom')">Review request →</button>
+                        </div>
+                    </div>
+
+                    <!-- SUMMARY -->
+                    <div class="order-summary" id="order-summary">
+                        <h4 class="translate" data-en="Your MOSA Request" data-ta="உங்கள் MOSA கோரிக்கை">Your MOSA
+                            Request</h4>
+                        <div id="summary-rows"></div>
+                        <div class="form-actions">
+                            <button class="btn btn-primary" onclick="submitRequest()">Submit request →</button>
+                            <span class="submit-note translate" data-en="Our team will review this within 2–3 days."
+                                data-ta="எங்கள் குழு 2-3 நாட்களுக்குள் இதை பரிசீலிக்கும்.">Our team will review this
+                                within 2–3 days.</span>
+                        </div>
+                        <div class="success-banner" id="success-banner">✓ Your MOSA request is ready. Your email app
+                            should open with the details filled in — just hit send.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="section" id="contact">
+            <div class="wrap contact-grid">
+                <div class="contact-copy">
+                    <div class="eyebrow translate" data-en="Contact" data-ta="தொடர்பு">Contact</div>
+                    <h2 class="translate" data-en="Talk to the MOSA team." data-ta="MOSA குழுவுடன் பேசுங்கள்.">Talk to
+                        the MOSA team.</h2>
+                    <p class="translate"
+                        data-en="Have a farming challenge? Tell us. Let's find a smarter solution together."
+                        data-ta="ஒரு விவசாய சவால் உள்ளதா? எங்களிடம் கூறுங்கள். ஒன்றாக ஒரு புத்திசாலியான தீர்வைக் கண்டுபிடிப்போம்.">
+                        Have a farming challenge? Tell us. Let's find a smarter solution together.</p>
+                    <a href="#order" class="btn btn-primary">Get in touch →</a>
+                </div>
+                <div class="contact-list">
+                    <div><span class="k">Email</span> mosafarmtech@gmail.com</div>
+                    <div><span class="k">Phone</span> +91 7358467161</div>
+                    <div><span class="k">Location</span> Tamil Nadu, India</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="wrap">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo"><span class="logo-mark">M</span> MOSA</div>
+                    <p>Mobile Organic Smart Agriculture — practical robotics for real farms.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a><a href="#about">About</a><a href="#solutions">Solutions</a><a
+                        href="#team">Team</a><a href="#order">Order</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>© 2026 MOSA Team. All Rights Reserved.</span>
+                <span>Prototype build — v0.9</span>
+            </div>
+        </div>
+    </footer>
+
+    <nav class="mobile-nav">
+        <a href="#home" class="active"><span>🏠</span>Home</a>
+        <a href="#solutions"><span>⚙️</span>Solutions</a>
+        <a href="#order"><span>➕</span>Order</a>
+        <a href="#team"><span>👥</span>Team</a>
+    </nav>
+
+    <script>
+        // ===== language toggle =====
+        function setLang(lang) {
+            document.body.setAttribute('data-lang', lang);
+            document.getElementById('lang-en-btn').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-ta-btn').classList.toggle('active', lang === 'ta');
+            document.querySelectorAll('.translate').forEach(el => {
+                const val = el.getAttribute('data-' + lang);
+                if (val) el.innerHTML = val;
+            });
+        }
+
+        // ===== order flow =====
+        // TODO: replace with the Gmail address that should receive MOSA requests
+        const RECIPIENT_EMAIL = "mosafarmtech@gmail.com";
+
+        let orderType = null;
+        let selectedCrops = [];
+
+        function selectOrderType(type) {
+            orderType = type;
+            document.getElementById('choice-standard').classList.toggle('selected', type === 'standard');
+            document.getElementById('choice-custom').classList.toggle('selected', type === 'custom');
+            document.getElementById('standard-form').classList.toggle('visible', type === 'standard');
+            document.getElementById('custom-form').classList.toggle('visible', type === 'custom');
+            document.getElementById('order-summary').classList.remove('visible');
+            document.getElementById('success-banner').classList.remove('visible');
+        }
+
+        function toggleChip(el) {
+            el.classList.toggle('active');
+            const crop = el.textContent;
+            if (el.classList.contains('active')) { selectedCrops.push(crop); }
+            else { selectedCrops = selectedCrops.filter(c => c !== crop); }
+        }
+
+        function buildSummary(type) {
+            const rows = document.getElementById('summary-rows');
+            rows.innerHTML = '';
+            let data = {};
+            if (type === 'standard') {
+                data = {
+                    Name: val('s-name') || '—',
+                    Mobile: val('s-mobile') || '—',
+                    Location: [val('s-location'), val('s-district')].filter(Boolean).join(', ') || '—',
+                    Type: 'Standard MOSA'
+                };
+            } else {
+                data = {
+                    Name: val('c-name') || '—',
+                    Mobile: val('c-mobile') || '—',
+                    Location: [val('c-location'), val('c-district')].filter(Boolean).join(', ') || '—',
+                    Land: val('c-land') || '—',
+                    Farm: val('c-size') || '—',
+                    Crops: selectedCrops.length ? selectedCrops.join(' + ') : '—',
+                    Problem: val('c-problem') || '—',
+                    Requirement: val('c-requirement') || '—',
+                    Type: 'Customized MOSA'
+                };
+            }
+            Object.entries(data).forEach(([k, v]) => {
+                const row = document.createElement('div');
+                row.className = 'summary-row';
+                row.innerHTML = `<span>${k}</span><span>${v}</span>`;
+                rows.appendChild(row);
+            });
+            document.getElementById('order-summary').classList.add('visible');
+            document.getElementById('order-summary').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            window.__lastOrder = data;
+        }
+
+        function val(id) { return document.getElementById(id) ? document.getElementById(id).value.trim() : ''; }
+
+        function submitRequest() {
+            document.getElementById('success-banner').classList.add('visible');
+            sendOrderEmail(window.__lastOrder);
+        }
+
+        function sendOrderEmail(data) {
+            if (!data) return;
+
+            const subject = `New MOSA Request — ${data.Name} (${data.Type})`;
+            const bodyLines = Object.entries(data).map(([k, v]) => `${k}: ${v}`);
+            const body = bodyLines.join('\n');
+
+            const gmailURL =
+                `https://mail.google.com/mail/?view=cm` +
+                `&fs=1` +
+                `&to=${encodeURIComponent(RECIPIENT_EMAIL)}` +
+                `&su=${encodeURIComponent(subject)}` +
+                `&body=${encodeURIComponent(body)}`;
+
+            window.open(gmailURL, '_blank');
+        }
+
+        // ===== video upload/preview =====
+        function triggerVideoUpload() {
+            document.getElementById('video-input').click();
+        }
+        function handleVideoUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            const shell = document.getElementById('video-shell');
+            shell.onclick = null;
+            shell.innerHTML = `<video controls autoplay src="${url}"></video>`;
+        }
+
+        function scrollToId(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+
+        // mobile nav active state
+        document.querySelectorAll('.mobile-nav a').forEach(a => {
+            a.addEventListener('click', () => {
+                document.querySelectorAll('.mobile-nav a').forEach(x => x.classList.remove('active'));
+                a.classList.add('active');
+            });
+        });
+    </script>
+
+</body>
+
+</html>
